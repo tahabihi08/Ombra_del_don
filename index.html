@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ombra del Don</title>
+<meta name="description" content="Ombra del Don, famille mafia de Car Parking Multiplayer.">
+<meta name="theme-color" content="#8B0000">
+<link rel="icon" href="assets/logo.svg" id="favicon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style id="customCss"></style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<canvas id="fog"></canvas>
+<div id="app"></div>
+
+<!-- Formulaires statiques cachés : nécessaires pour que Netlify Forms détecte les champs. Ne pas supprimer. -->
+<form name="join" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="bot-field"><input name="pseudo"><input name="cpm_id"><input name="age"><input name="pays">
+  <input name="discord"><input name="experience"><textarea name="motivation"></textarea>
+</form>
+<form name="meeting" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="bot-field"><input name="mafia"><input name="chef"><input name="discord"><input name="membres">
+  <input name="date_proposee"><input name="sujet"><textarea name="message"></textarea>
+</form>
+
+<div id="lb"><img alt=""></div>
+<button id="top" aria-label="Haut de page">↑</button>
+<script src="app.js"></script>
+</body>
+</html>

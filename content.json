@@ -1,0 +1,141 @@
+{
+  "settings": {
+    "name": "Ombra del Don",
+    "logo": "assets/logo.svg",
+    "favicon": "assets/logo.svg",
+    "accent": "#b3121f",
+    "gold": "#c9a24b",
+    "bg": "#070506",
+    "seoTitle": "Ombra del Don | Mafia Car Parking Multiplayer",
+    "seoDesc": "Ombra del Don, famille mafia de Car Parking Multiplayer. Respect, loyauté, silence. Rejoins-nous ou demande un meeting.",
+    "ogImage": "",
+    "splash": true,
+    "splashText": "Entrer dans l'ombre",
+    "music": "",
+    "maintenance": false,
+    "maintenanceText": "La famille se réorganise. Reviens bientôt.",
+    "footerText": "© Ombra del Don. Site non officiel, non affilié à Car Parking Multiplayer ni à olzhass.",
+    "customCss": ""
+  },
+  "socials": [
+    { "label": "Instagram", "url": "https://www.instagram.com/ombradeldon/" },
+    { "label": "Discord", "url": "#" }
+  ],
+  "sections": [
+    {
+      "id": "accueil", "type": "hero", "visible": true,
+      "eyebrow": "Car Parking Multiplayer · Famille Mafia",
+      "title": "OMBRA DEL DON",
+      "text": "L'ombre ne dort jamais.\nRespect. Loyauté. Silence.",
+      "bg": "",
+      "buttons": [
+        { "label": "Rejoindre la famille", "url": "#rejoindre", "style": "plein" },
+        { "label": "Demander un meeting", "url": "#meeting", "style": "contour" }
+      ]
+    },
+    {
+      "id": "famille", "type": "about", "visible": true, "navLabel": "La Famille",
+      "title": "La Famille",
+      "subtitle": "Née dans l'ombre des parkings",
+      "text": "Ombra del Don n'est pas un simple clan. C'est une famille, avec ses règles, son honneur et sa hiérarchie.\n\nSur les routes de Car Parking Multiplayer, on se déplace en silence, on frappe quand il faut et on protège les nôtres.\n\nModifie ce texte depuis le panneau admin pour raconter votre histoire.",
+      "quote": "Ce qui se dit dans l'ombre reste dans l'ombre.",
+      "image": ""
+    },
+    {
+      "id": "chiffres", "type": "stats", "visible": true, "navLabel": "Chiffres",
+      "title": "L'empire en chiffres", "subtitle": "",
+      "items": [
+        { "value": "50+", "label": "Membres" },
+        { "value": "8", "label": "Alliances" },
+        { "value": "24/7", "label": "Toujours en ligne" },
+        { "value": "100%", "label": "Loyauté" }
+      ]
+    },
+    {
+      "id": "hierarchie", "type": "ranks", "visible": true, "navLabel": "Hiérarchie",
+      "title": "La Hiérarchie", "subtitle": "Chacun connaît sa place",
+      "items": [
+        { "name": "Don", "desc": "Le chef absolu. Sa parole est loi.", "icon": "♛" },
+        { "name": "Sous-Chef", "desc": "La main droite du Don.", "icon": "♚" },
+        { "name": "Consigliere", "desc": "Le conseiller, voix de la raison.", "icon": "♞" },
+        { "name": "Capo", "desc": "Dirige une équipe et répond au Don.", "icon": "♜" },
+        { "name": "Soldato", "desc": "Membre éprouvé de la famille.", "icon": "♝" },
+        { "name": "Associé", "desc": "À l'essai. Il doit prouver sa loyauté.", "icon": "♟" }
+      ]
+    },
+    {
+      "id": "membres", "type": "members", "visible": true, "navLabel": "Membres",
+      "title": "Les Visages de l'Ombre", "subtitle": "",
+      "items": [
+        { "name": "Pseudo du Don", "role": "Don", "photo": "", "cpmId": "" },
+        { "name": "Pseudo du Sous-Chef", "role": "Sous-Chef", "photo": "", "cpmId": "" },
+        { "name": "Pseudo du Consigliere", "role": "Consigliere", "photo": "", "cpmId": "" }
+      ]
+    },
+    {
+      "id": "code", "type": "rules", "visible": true, "navLabel": "Le Code",
+      "title": "Le Code de l'Omertà", "subtitle": "Il ne se discute pas",
+      "items": [
+        { "title": "Loyauté avant tout", "text": "Trahir la famille, c'est signer son départ." },
+        { "title": "Respect absolu", "text": "Respect envers le Don, les membres et les alliés." },
+        { "title": "Silence", "text": "Les affaires de la famille ne sortent pas du cercle." },
+        { "title": "Pas de chaos gratuit", "text": "On ne provoque pas sans ordre." },
+        { "title": "Présence", "text": "Un membre actif est un membre respecté." },
+        { "title": "Un seul clan", "text": "Pas de double appartenance sans l'accord du Don." }
+      ]
+    },
+    {
+      "id": "alliances", "type": "alliances", "visible": true, "navLabel": "Alliances",
+      "title": "Nos Alliances", "subtitle": "Ceux qui marchent à nos côtés",
+      "text": "Les familles qui ont gagné notre respect.",
+      "items": [
+        { "name": "Famille alliée 1", "logo": "", "url": "", "desc": "Alliés de confiance" },
+        { "name": "Famille alliée 2", "logo": "", "url": "", "desc": "Alliés de confiance" },
+        { "name": "Famille alliée 3", "logo": "", "url": "", "desc": "Alliés de confiance" }
+      ]
+    },
+    {
+      "id": "galerie", "type": "gallery", "visible": true, "navLabel": "Galerie",
+      "title": "Galerie", "subtitle": "Souvenirs de la famille",
+      "items": []
+    },
+    {
+      "id": "actus", "type": "news", "visible": true, "navLabel": "Actualités",
+      "title": "Nouvelles de la Famille", "subtitle": "",
+      "items": [
+        { "title": "Le recrutement est ouvert", "date": "2026-11-06", "text": "La famille cherche des joueurs loyaux et actifs. Remplis le formulaire plus bas.", "image": "" }
+      ]
+    },
+    {
+      "id": "rejoindre", "type": "join", "visible": true, "navLabel": "Rejoindre",
+      "title": "Rejoindre la Famille", "subtitle": "Prouve que tu mérites ta place",
+      "open": true,
+      "text": "Le recrutement est ouvert. Chaque candidature est étudiée par le Consigliere.",
+      "requirements": "Avoir un micro et être actif\nRespecter le Code\nAge minimum : 13 ans\nPas de triche, pas de toxicité",
+      "closedText": "Le recrutement est fermé pour le moment."
+    },
+    {
+      "id": "meeting", "type": "meeting", "visible": true, "navLabel": "Meeting",
+      "title": "Meeting entre Mafias", "subtitle": "Les affaires se règlent à table",
+      "open": true,
+      "text": "Tu diriges une autre mafia et tu veux t'asseoir à notre table pour une alliance, une négociation ou un différend ? Envoie ta demande, le Don te répondra.",
+      "topics": "Alliance\nNégociation\nPaix / Trêve\nConflit\nAutre",
+      "rules": "Le meeting se fait entre chefs ou représentants officiels.\nPas d'insultes ni de provocation.\nLa réponse peut prendre quelques jours.",
+      "closedText": "Les meetings sont fermés pour le moment."
+    },
+    {
+      "id": "faq", "type": "faq", "visible": true, "navLabel": "FAQ",
+      "title": "Questions Fréquentes", "subtitle": "",
+      "items": [
+        { "q": "Comment rejoindre Ombra del Don ?", "a": "Remplis le formulaire de candidature. Le Consigliere te contactera sur Discord." },
+        { "q": "Comment demander un meeting ?", "a": "Utilise le formulaire Meeting entre Mafias avec le nom de ta mafia et ton Discord." },
+        { "q": "Faut-il un micro ?", "a": "Oui, la communication vocale est essentielle." }
+      ]
+    },
+    {
+      "id": "contact", "type": "contact", "visible": true, "navLabel": "Contact",
+      "title": "Contact", "subtitle": "Le Don écoute",
+      "text": "Retrouve-nous sur nos réseaux. Les liens se modifient depuis le panneau admin."
+    }
+  ]
+}
