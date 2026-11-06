@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin · Ombra del Don</title>
+<style>
+:root{--bg:#0a0708;--panel:#120d0e;--line:#2b1d1f;--accent:#b3121f;--gold:#c9a24b;--text:#e9e1d6;--muted:#9a9084}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:14px/1.5 system-ui,sans-serif;height:100vh;display:flex;flex-direction:column}
+button{font:inherit;cursor:pointer}
+input[type=text],input[type=url],input[type=password],input[type=number],textarea,select{width:100%;background:#0a0707;border:1px solid var(--line);color:var(--text);padding:9px 11px;border-radius:4px;font:inherit}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
+textarea{resize:vertical}
+.btn{background:var(--accent);color:#fff;border:0;padding:9px 16px;border-radius:4px;font-weight:600}
+.btn:hover{filter:brightness(1.2)}
+.btn.alt{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn.sm{padding:4px 10px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:wait}
+#login{max-width:460px;margin:7vh auto;padding:28px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+#login h1{color:var(--gold);font-size:22px;margin-bottom:6px}
+#login p.s{color:var(--muted);font-size:13px;margin-bottom:18px}
+.fld{margin-bottom:14px}
+.fld>label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
+.chk{display:flex;gap:8px;align-items:center;margin-bottom:14px;cursor:pointer}
+#app{display:none;flex:1;min-height:0;flex-direction:column}
+.top{display:flex;gap:10px;align-items:center;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+.top b{color:var(--gold);flex:1}
+.dot{font-size:12px;color:var(--muted)}
+.dot.dirty{color:#e6a23c}
+.body{flex:1;display:flex;min-height:0}
+aside{width:270px;background:var(--panel);border-right:1px solid var(--line);overflow:auto;padding:12px}
+aside h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 6px 6px}
+.nv{display:flex;align-items:center;gap:4px;padding:7px 8px;border-radius:4px;cursor:pointer;border:1px solid transparent}
+.nv:hover{background:#1a1213}
+.nv.on{background:#1f1214;border-color:var(--accent)}
+.nv span.t{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nv.off span.t{opacity:.45;text-decoration:line-through}
+.nv button{background:none;border:0;color:var(--muted);padding:2px 5px;font-size:13px}
+.nv button:hover{color:var(--gold)}
+main{flex:1;overflow:auto;padding:24px;max-width:860px}
+main h2{color:var(--gold);margin-bottom:4px;font-size:20px}
+main .sub{color:var(--muted);margin-bottom:20px}
+.list{border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:16px;background:#0e0a0b}
+.list-h{font-weight:700;color:var(--gold);margin-bottom:10px}
+.item{border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:10px;background:var(--panel)}
+.item-h{display:flex;justify-content:space-between;margin-bottom:10px;color:var(--muted)}
+.item-h button{background:#1a1213;border:1px solid var(--line);color:var(--text);border-radius:3px;padding:2px 8px;margin-left:4px}
+.item-h button.d:hover{background:var(--accent)}
+.imgf{display:flex;gap:10px;align-items:center}
+.imgf .th{width:64px;height:64px;border:1px solid var(--line);border-radius:4px;background:#0a0707 center/cover;flex:none}
+.imgf .c{flex:1}
+.imgf .r{display:flex;gap:6px;margin-top:6px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toast{position:fixed;right:16px;bottom:16px;background:#1d1213;border:1px solid var(--gold);padding:12px 16px;border-radius:6px;max-width:360px;display:none;z-index:9}
+.toast.err{border-color:var(--accent)}
+.warn{background:#2a1a0c;border:1px solid #e6a23c;padding:10px 12px;border-radius:5px;margin-bottom:14px;font-size:13px}
+.add{display:flex;gap:6px;margin:8px 0}
+@media(max-width:800px){aside{width:100%;max-height:34vh;border-right:0;border-bottom:1px solid var(--line)}.body{flex-direction:column}.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <h1>Panneau admin · Ombra del Don</h1>
+  <p class="s">Connecte-toi avec GitHub pour publier tes modifications directement sur le site (gratuit). Voir le guide dans README.md.</p>
+  <div class="fld"><label>Dépôt GitHub (utilisateur/nom)</label><input type="text" id="repo" placeholder="monpseudo/ombra-del-don"></div>
+  <div class="fld"><label>Branche</label><input type="text" id="branch" value="main"></div>
+  <div class="fld"><label>Token d'accès GitHub</label><input type="password" id="token" placeholder="github_pat_..."><div class="hint">Token « fine-grained » limité à ce seul dépôt, permission Contents : lecture et écriture.</div></div>
+  <label class="chk"><input type="checkbox" id="remember" checked> Se souvenir sur cet appareil</label>
+  <button class="btn" id="connect" style="width:100%">Se connecter</button>
+  <p class="hint" style="margin:14px 0 6px;text-align:center">ou</p>
+  <button class="btn alt" id="offline" style="width:100%">Mode hors-ligne (télécharger content.json)</button>
+</div>
+
+<div id="app">
+  <div class="top">
+    <b>Ombra del Don · Admin</b>
+    <span class="dot" id="status"></span>
+    <button class="btn alt sm" id="prev">Aperçu</button>
+    <button class="btn" id="save">Publier</button>
+  </div>
+  <div class="body"><aside id="side"></aside><main id="ed"></main></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const F = (k, l, t = 'text', o = {}) => ({ k, l, t, ...o });
+
+/* ---------- Schéma des sections ---------- */
+const COMMON = [F('title', 'Titre de la section'), F('subtitle', 'Sous-titre')];
+const BTN = F('buttons', 'Boutons', 'list', { blank: { label: 'Nouveau bouton', url: '#', style: 'plein' }, fields: [F('label', 'Texte'), F('url', 'Lien (ex: #rejoindre ou https://...)'), F('style', 'Style', 'select', { opts: ['plein', 'contour'] })] });
+const TYPES = {
+  hero: { label: 'Accueil (grande bannière)', fields: [F('eyebrow', 'Petite ligne au-dessus'), F('title', 'Titre principal'), F('text', 'Slogan', 'textarea', { rows: 3 }), F('bg', 'Image de fond (optionnel)', 'image'), BTN], blank: { eyebrow: '', title: 'TITRE', text: '', bg: '', buttons: [] } },
+  about: { label: 'À propos / Histoire', fields: [...COMMON, F('text', 'Texte (ligne vide = nouveau paragraphe)', 'textarea', { rows: 8 }), F('quote', 'Citation'), F('image', 'Image', 'image')], blank: { title: 'Nouvelle section', subtitle: '', text: '', quote: '', image: '' } },
+  stats: { label: 'Chiffres clés', fields: [...COMMON, F('items', 'Chiffres', 'list', { blank: { value: '0', label: 'Libellé' }, fields: [F('value', 'Valeur'), F('label', 'Libellé')] })], blank: { title: 'Chiffres', subtitle: '', items: [] } },
+  ranks: { label: 'Hiérarchie / Grades', fields: [...COMMON, F('items', 'Grades', 'list', { blank: { name: 'Grade', desc: '', icon: '♦' }, fields: [F('name', 'Nom'), F('desc', 'Description'), F('icon', 'Symbole (emoji ou caractère)')] })], blank: { title: 'Hiérarchie', subtitle: '', items: [] } },
+  members: { label: 'Membres', fields: [...COMMON, F('items', 'Membres', 'list', { blank: { name: 'Pseudo', role: 'Soldato', photo: '', cpmId: '' }, fields: [F('name', 'Pseudo'), F('role', 'Grade'), F('cpmId', 'ID CPM'), F('photo', 'Photo', 'image')] })], blank: { title: 'Membres', subtitle: '', items: [] } },
+  rules: { label: 'Règlement / Code', fields: [...COMMON, F('items', 'Règles', 'list', { blank: { title: 'Règle', text: '' }, fields: [F('title', 'Titre'), F('text', 'Texte')] })], blank: { title: 'Le Code', subtitle: '', items: [] } },
+  alliances: { label: 'Alliances', fields: [...COMMON, F('text', 'Texte d\'intro', 'textarea', { rows: 3 }), F('items', 'Alliances', 'list', { blank: { name: 'Mafia alliée', logo: '', url: '', desc: '' }, fields: [F('name', 'Nom'), F('desc', 'Description'), F('url', 'Lien (Instagram/Discord)', 'url'), F('logo', 'Logo', 'image')] })], blank: { title: 'Alliances', subtitle: '', text: '', items: [] } },
+  gallery: { label: 'Galerie photos', fields: [...COMMON, F('items', 'Photos', 'list', { blank: { image: '', caption: '' }, fields: [F('image', 'Photo', 'image'), F('caption', 'Légende')] })], blank: { title: 'Galerie', subtitle: '', items: [] } },
+  news: { label: 'Actualités', fields: [...COMMON, F('items', 'Articles', 'list', { blank: { title: 'Titre', date: new Date().toISOString().slice(0, 10), text: '', image: '' }, fields: [F('title', 'Titre'), F('date', 'Date'), F('text', 'Texte', 'textarea', { rows: 3 }), F('image', 'Image', 'image')] })], blank: { title: 'Actualités', subtitle: '', items: [] } },
+  join: { label: 'Formulaire : rejoindre', fields: [...COMMON, F('open', 'Recrutement ouvert', 'bool'), F('text', 'Texte d\'intro', 'textarea', { rows: 3 }), F('requirements', 'Conditions (une par ligne)', 'textarea', { rows: 5 }), F('closedText', 'Message si fermé')], blank: { title: 'Rejoindre', subtitle: '', open: true, text: '', requirements: '', closedText: 'Recrutement fermé.' } },
+  meeting: { label: 'Formulaire : meeting entre mafias', fields: [...COMMON, F('open', 'Meetings ouverts', 'bool'), F('text', 'Texte d\'intro', 'textarea', { rows: 4 }), F('topics', 'Sujets proposés (un par ligne)', 'textarea', { rows: 5 }), F('rules', 'Règles du meeting (une par ligne)', 'textarea', { rows: 4 }), F('closedText', 'Message si fermé')], blank: { title: 'Meeting', subtitle: '', open: true, text: '', topics: 'Alliance\nAutre', rules: '', closedText: 'Meetings fermés.' } },
+  faq: { label: 'FAQ', fields: [...COMMON, F('items', 'Questions', 'list', { blank: { q: 'Question ?', a: '' }, fields: [F('q', 'Question'), F('a', 'Réponse', 'textarea', { rows: 3 })] })], blank: { title: 'FAQ', subtitle: '', items: [] } },
+  contact: { label: 'Contact / Réseaux', fields: [...COMMON, F('text', 'Texte', 'textarea', { rows: 3 })], blank: { title: 'Contact', subtitle: '', text: '' } },
+  custom: { label: 'Section libre (texte + image)', fields: [...COMMON, F('text', 'Texte', 'textarea', { rows: 8 }), F('image', 'Image', 'image')], blank: { title: 'Nouvelle section', subtitle: '', text: '', image: '' } }
+};
+const SETTINGS = [
+  F('name', 'Nom du site'), F('logo', 'Logo', 'image'), F('favicon', 'Favicon (icône d\'onglet)', 'image'),
+  F('accent', 'Couleur principale (rouge)', 'color'), F('gold', 'Couleur secondaire (or)', 'color'), F('bg', 'Couleur de fond', 'color'),
+  F('seoTitle', 'Titre Google (SEO)'), F('seoDesc', 'Description Google (SEO)', 'textarea', { rows: 3 }), F('ogImage', 'Image de partage (Discord/WhatsApp)', 'image'),
+  F('splash', 'Écran d\'entrée « Entrer dans l\'ombre »', 'bool'), F('splashText', 'Texte du bouton d\'entrée'),
+  F('music', 'Musique d\'ambiance (lien .mp3 ou chemin images/xxx.mp3)'),
+  F('maintenance', 'Mode maintenance (cache tout le site)', 'bool'), F('maintenanceText', 'Message de maintenance'),
+  F('footerText', 'Texte du pied de page', 'textarea', { rows: 2 }),
+  F('customCss', 'CSS personnalisé (avancé)', 'textarea', { rows: 5 })
+];
+
+/* ---------- État ---------- */
+let S = null, cur = 'settings', gh = null, dirty = false, saved = '';
+const cache = {}; // chemin image -> dataURL (aperçu avant déploiement)
+
+const toast = (m, err) => { const t = $('#toast'); t.textContent = m; t.className = 'toast' + (err ? ' err' : ''); t.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => t.style.display = 'none', err ? 7000 : 3500); };
+const b64 = s => btoa(unescape(encodeURIComponent(s)));
+const unb64 = s => decodeURIComponent(escape(atob(s.replace(/\n/g, ''))));
+const getP = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
+const setP = (o, p, v) => { const k = p.split('.'); const last = k.pop(); getP(o, k.join('.') || '') ; let t = o; k.forEach(x => t = t[x]); t[last] = v; };
+
+/* ---------- GitHub API ---------- */
+const api = async (path, opt = {}) => {
+  const r = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${path}`, { ...opt, headers: { Authorization: 'Bearer ' + gh.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' } });
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(r.status + ' ' + (e.message || 'Erreur GitHub')); }
+  return r.json();
+};
+const getFile = path => api(path + '?ref=' + encodeURIComponent(gh.branch) + '&t=' + Date.now());
+const putFile = async (path, content, msg) => {
+  let sha; try { sha = (await getFile(path)).sha; } catch (e) { if (!/^404/.test(e.message)) throw e; }
+  return api(path, { method: 'PUT', body: JSON.stringify({ message: msg, content, branch: gh.branch, ...(sha ? { sha } : {}) }) });
+};
+
+/* ---------- Connexion ---------- */
+const saved0 = (() => { try { return JSON.parse(localStorage.getItem('od_gh') || 'null'); } catch (e) { return null; } })();
+if (saved0) { $('#repo').value = saved0.repo; $('#branch').value = saved0.branch; $('#token').value = saved0.token; }
+
+$('#connect').onclick = async () => {
+  gh = { repo: $('#repo').value.trim(), branch: $('#branch').value.trim() || 'main', token: $('#token').value.trim() };
+  if (!/^[\w.-]+\/[\w.-]+$/.test(gh.repo) || !gh.token) return toast('Renseigne le dépôt (utilisateur/nom) et le token.', true);
+  $('#connect').disabled = true;
+  try {
+    const f = await getFile('content.json');
+    S = JSON.parse(unb64(f.content));
+    if ($('#remember').checked) localStorage.setItem('od_gh', JSON.stringify(gh)); else localStorage.removeItem('od_gh');
+    start();
+  } catch (e) { gh = null; toast('Connexion impossible : ' + e.message, true); }
+  $('#connect').disabled = false;
+};
+$('#offline').onclick = async () => {
+  try { S = await (await fetch('../content.json?t=' + Date.now())).json(); gh = null; start(); }
+  catch (e) { toast('Impossible de charger ../content.json', true); }
+};
+
+function start() {
+  $('#login').style.display = 'none'; $('#app').style.display = 'flex';
+  saved = JSON.stringify(S); dirty = false; render();
+  $('#save').textContent = gh ? 'Publier' : 'Télécharger content.json';
+}
+
+/* ---------- Rendu ---------- */
+const secTitle = s => s.navLabel || s.title || TYPES[s.type]?.label || 'Section';
+function render() {
+  const keep = $('#ed').scrollTop;
+  $('#side').innerHTML = `
+    <div class="nv ${cur === 'settings' ? 'on' : ''}" data-go="settings"><span class="t">⚙ Paramètres généraux</span></div>
+    <div class="nv ${cur === 'socials' ? 'on' : ''}" data-go="socials"><span class="t">🔗 Réseaux sociaux</span></div>
+    <h4>Sections du site</h4>
+    ${S.sections.map((s, i) => `<div class="nv ${cur === 'sec:' + i ? 'on' : ''} ${s.visible === false ? 'off' : ''}" data-go="sec:${i}"><span class="t">${esc(secTitle(s))}</span>
+      <button data-a="vis" data-i="${i}" title="Afficher/masquer">${s.visible === false ? '○' : '●'}</button>
+      <button data-a="secup" data-i="${i}" title="Monter">↑</button><button data-a="secdown" data-i="${i}" title="Descendre">↓</button>
+      <button data-a="secdel" data-i="${i}" title="Supprimer">✕</button></div>`).join('')}
+    <div class="add"><select id="newtype">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}">${esc(v.label)}</option>`).join('')}</select><button class="btn sm" data-a="secadd">+</button></div>
+    <h4>Outils</h4>
+    <div class="nv ${cur === 'tools' ? 'on' : ''}" data-go="tools"><span class="t">💾 Sauvegarde / Import</span></div>`;
+  let h = '';
+  if (cur === 'settings') h = `<h2>Paramètres généraux</h2><p class="sub">Identité, couleurs, SEO, écran d'entrée, maintenance.</p>${SETTINGS.map(f => field('settings.' + f.k, f, S.settings[f.k])).join('')}`;
+  else if (cur === 'socials') h = `<h2>Réseaux sociaux</h2><p class="sub">Affichés dans la section Contact, le pied de page et le mode maintenance.</p>${field('socials', F('socials', 'Liens', 'list', { blank: { label: 'Instagram', url: 'https://' }, fields: [F('label', 'Nom (Instagram, Discord, YouTube...)'), F('url', 'Lien', 'url')] }), S.socials)}`;
+  else if (cur === 'tools') h = tools();
+  else { const i = +cur.split(':')[1], s = S.sections[i]; if (!s) { cur = 'settings'; return render(); }
+    h = `<h2>${esc(secTitle(s))}</h2><p class="sub">Type : ${esc(TYPES[s.type]?.label || s.type)} · Identifiant : #${esc(s.id)}</p>
+      ${field(`sections.${i}.navLabel`, F('navLabel', 'Nom dans le menu (vide = absent du menu)'), s.navLabel)}
+      ${(TYPES[s.type]?.fields || []).map(f => field(`sections.${i}.${f.k}`, f, s[f.k])).join('')}`; }
+  $('#ed').innerHTML = h; $('#ed').scrollTop = keep;
+  status();
+}
+
+function field(p, f, v) {
+  const lab = inner => `<div class="fld"><label>${esc(f.l)}</label>${inner}</div>`;
+  if (f.t === 'textarea') return lab(`<textarea data-p="${p}" rows="${f.rows || 4}">${esc(v)}</textarea>`);
+  if (f.t === 'bool') return `<label class="chk"><input type="checkbox" data-p="${p}" data-t="bool" ${v ? 'checked' : ''}> ${esc(f.l)}</label>`;
+  if (f.t === 'select') return lab(`<select data-p="${p}">${f.opts.map(o => `<option ${o === v ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>`);
+  if (f.t === 'color') return lab(`<div style="display:flex;gap:8px"><input type="color" data-p="${p}" data-t="color" value="${esc(v || '#000000')}" style="width:54px;height:38px;border:0;background:none"><input type="text" data-p="${p}" value="${esc(v)}"></div>`);
+  if (f.t === 'image') { const src = cache[v] || v; return lab(`<div class="imgf"><div class="th" style="${src ? `background-image:url('${esc(src)}')` : ''}"></div><div class="c"><input type="text" data-p="${p}" value="${esc(v)}" placeholder="Lien https://... ou images/xxx.jpg"><div class="r"><button class="btn sm" data-a="upload" data-p="${p}">Téléverser une image</button><button class="btn alt sm" data-a="clear" data-p="${p}">Retirer</button></div></div></div>`); }
+  if (f.t === 'list') {
+    const arr = Array.isArray(v) ? v : [];
+    return `<div class="list"><div class="list-h">${esc(f.l)} (${arr.length})</div>${arr.map((it, i) => `<div class="item"><div class="item-h"><b>${i + 1}. ${esc(it[f.fields[0].k] || '')}</b><span><button data-a="up" data-p="${p}" data-i="${i}">↑</button><button data-a="down" data-p="${p}" data-i="${i}">↓</button><button class="d" data-a="del" data-p="${p}" data-i="${i}">Supprimer</button></span></div>${f.fields.map(sf => field(`${p}.${i}.${sf.k}`, sf, it[sf.k])).join('')}</div>`).join('')}<button class="btn sm" data-a="add" data-p="${p}" data-blank="${esc(JSON.stringify(f.blank || {}))}">+ Ajouter</button></div>`;
+  }
+  return lab(`<input type="${f.t === 'url' ? 'url' : 'text'}" data-p="${p}" value="${esc(v)}">`);
+}
+
+function tools() {
+  return `<h2>Sauvegarde / Import</h2><p class="sub">Garde toujours une copie de ton contenu.</p>
+  <div class="fld"><button class="btn" data-a="export">Télécharger content.json (sauvegarde)</button></div>
+  <div class="fld"><label>Importer un content.json</label><input type="file" id="imp" accept=".json"></div>
+  <div class="fld"><button class="btn alt" data-a="revert">Annuler les modifications non publiées</button></div>
+  ${gh ? `<div class="fld"><button class="btn alt" data-a="logout">Se déconnecter et oublier le token</button></div>` : ''}
+  <div class="warn">Les formulaires « Rejoindre » et « Meeting » arrivent dans ton tableau de bord Netlify : Site → Forms (100 envois gratuits par mois).</div>`;
+}
+
+function status() {
+  const el = $('#status'); el.className = 'dot' + (dirty ? ' dirty' : ''); el.textContent = dirty ? '● Modifications non publiées' : '✓ À jour';
+}
+
+/* ---------- Brouillon pour l'aperçu ---------- */
+function draft() {
+  try { localStorage.setItem('od_draft', JSON.stringify(S, (k, v) => (typeof v === 'string' && cache[v]) ? cache[v] : v)); } catch (e) {}
+}
+const touch = () => { dirty = JSON.stringify(S) !== saved; status(); draft(); };
+
+/* ---------- Événements ---------- */
+$('#ed').addEventListener('input', e => {
+  const el = e.target, p = el.dataset.p; if (!p) return;
+  const v = el.dataset.t === 'bool' ? el.checked : el.value;
+  setP(S, p, v); touch();
+  if (el.dataset.t === 'color') { const t = el.parentNode.querySelector('input[type=text]'); if (t) t.value = v; }
+  else if (el.type === 'text' && el.parentNode.querySelector('input[type=color]')) { const c = el.parentNode.querySelector('input[type=color]'); if (/^#[0-9a-f]{6}$/i.test(v)) c.value = v; }
+});
+$('#ed').addEventListener('change', e => {
+  const el = e.target;
+  if (el.id === 'imp' && el.files[0]) { el.files[0].text().then(t => { try { const o = JSON.parse(t); if (!o.settings || !Array.isArray(o.sections)) throw 0; S = o; cur = 'settings'; touch(); render(); toast('Fichier importé. Clique sur Publier pour l\'appliquer.'); } catch (x) { toast('Fichier invalide.', true); } }); }
+  else if (el.dataset.t === 'bool' || el.tagName === 'SELECT') { /* déjà géré par input */ }
+});
+
+function move(arr, i, d) { const j = i + d; if (j < 0 || j >= arr.length) return false;[arr[i], arr[j]] = [arr[j], arr[i]]; return true; }
+const uid = t => t + '-' + Math.random().toString(36).slice(2, 6);
+
+document.addEventListener('click', async e => {
+  const nv = e.target.closest('[data-go]');
+  const b = e.target.closest('[data-a]');
+  if (b) {
+    const a = b.dataset.a, p = b.dataset.p, i = +b.dataset.i;
+    if (a === 'vis') { S.sections[i].visible = S.sections[i].visible === false; }
+    else if (a === 'secup') { if (move(S.sections, i, -1) && cur === 'sec:' + i) cur = 'sec:' + (i - 1); else if (cur === 'sec:' + (i - 1)) cur = 'sec:' + i; }
+    else if (a === 'secdown') { if (move(S.sections, i, 1) && cur === 'sec:' + i) cur = 'sec:' + (i + 1); else if (cur === 'sec:' + (i + 1)) cur = 'sec:' + i; }
+    else if (a === 'secdel') { if (!confirm('Supprimer la section « ' + secTitle(S.sections[i]) + ' » ?')) return; S.sections.splice(i, 1); cur = 'settings'; }
+    else if (a === 'secadd') { const t = $('#newtype').value; S.sections.push({ id: uid(t), type: t, visible: true, navLabel: TYPES[t].blank.title || '', ...JSON.parse(JSON.stringify(TYPES[t].blank)) }); cur = 'sec:' + (S.sections.length - 1); }
+    else if (a === 'add') { const arr = getP(S, p) || (setP(S, p, []), getP(S, p)); arr.push(JSON.parse(b.dataset.blank)); }
+    else if (a === 'del') { if (!confirm('Supprimer cet élément ?')) return; getP(S, p).splice(i, 1); }
+    else if (a === 'up') move(getP(S, p), i, -1);
+    else if (a === 'down') move(getP(S, p), i, 1);
+    else if (a === 'clear') setP(S, p, '');
+    else if (a === 'upload') return upload(p);
+    else if (a === 'export') return download();
+    else if (a === 'revert') { if (!confirm('Annuler toutes les modifications non publiées ?')) return; S = JSON.parse(saved); }
+    else if (a === 'logout') { localStorage.removeItem('od_gh'); location.reload(); return; }
+    touch(); render(); return;
+  }
+  if (nv) { cur = nv.dataset.go; render(); }
+});
+
+/* ---------- Téléversement d'image ---------- */
+function upload(p) {
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*,audio/mpeg';
+  inp.onchange = async () => {
+    const f = inp.files[0]; if (!f) return;
+    try {
+      let blob = f, ext = (f.name.split('.').pop() || 'jpg').toLowerCase();
+      if (f.type.startsWith('image/') && f.type !== 'image/svg+xml' && f.type !== 'image/gif') {
+        const bmp = await createImageBitmap(f); const sc = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+        const c = document.createElement('canvas'); c.width = Math.round(bmp.width * sc); c.height = Math.round(bmp.height * sc);
+        c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+        blob = await new Promise(r => c.toBlob(r, 'image/jpeg', .85)); ext = 'jpg';
+      }
+      const dataUrl = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
+      let path;
+      if (gh) {
+        toast('Téléversement en cours...');
+        path = 'images/' + Date.now() + '-' + f.name.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30) + '.' + ext;
+        await putFile(path, dataUrl.split(',')[1], 'Ajout image ' + path);
+        cache[path] = dataUrl; setP(S, p, path); toast('Image envoyée. Elle sera en ligne après la prochaine publication.');
+      } else {
+        if (dataUrl.length > 400000) return toast('Mode hors-ligne : image trop lourde. Utilise la connexion GitHub.', true);
+        setP(S, p, dataUrl); toast('Image intégrée (mode hors-ligne).');
+      }
+      touch(); render();
+    } catch (e) { toast('Échec du téléversement : ' + e.message, true); }
+  };
+  inp.click();
+}
+
+/* ---------- Publication ---------- */
+function download() {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' })); a.download = 'content.json'; a.click();
+}
+$('#save').onclick = async () => {
+  if (!gh) { download(); saved = JSON.stringify(S); dirty = false; status(); return toast('Fichier téléchargé : remplace content.json dans ton dépôt.'); }
+  $('#save').disabled = true; $('#save').textContent = 'Publication...';
+  try {
+    await putFile('content.json', b64(JSON.stringify(S, null, 2) + '\n'), 'Mise à jour du contenu via le panneau admin');
+    saved = JSON.stringify(S); dirty = false; status();
+    toast('Publié. Netlify met le site à jour en 30 à 60 secondes.');
+  } catch (e) { toast('Échec de la publication : ' + e.message, true); }
+  $('#save').disabled = false; $('#save').textContent = 'Publier';
+};
+$('#prev').onclick = () => { draft(); window.open('../?preview=1', '_blank'); };
+addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+</script>
+</body>
+</html>
