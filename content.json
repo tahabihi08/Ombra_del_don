@@ -125,7 +125,7 @@
       "subtitle": "",
       "items": [
         {
-          "name": "Pseudo du Don",
+          "name": "[ODD] DON",
           "role": "Don",
           "photo": "",
           "cpmId": ""
@@ -133,12 +133,6 @@
         {
           "name": "Pseudo du Sous-Chef",
           "role": "Sous-Chef",
-          "photo": "",
-          "cpmId": ""
-        },
-        {
-          "name": "Pseudo du Consigliere",
-          "role": "Consigliere",
           "photo": "",
           "cpmId": ""
         }
