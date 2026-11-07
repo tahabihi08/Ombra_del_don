@@ -248,7 +248,7 @@
       "open": true,
       "text": "Tu diriges une autre mafia et tu veux t'asseoir à notre table pour une alliance, une négociation ou un différend ? Envoie ta demande, le Don te répondra.",
       "topics": "Alliance\nNégociation\nPaix / Trêve\nConflit\nAutre",
-      "rules": "Le meeting se fait entre chefs ou représentants officiels.\nPas d'insultes ni de provocation.\nLa réponse peut prendre quelques jours.",
+      "rules": "Le meeting se fait entre chefs ou membre mafia.\nPas d'insultes ni de provocation.\nLa réponse peut prendre quelques jours.",
       "closedText": "Les meetings sont fermés pour le moment."
     },
     {
